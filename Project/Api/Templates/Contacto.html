@@ -1,0 +1,185 @@
+{% extends 'Base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="contact-page">
+
+    <div class="contact-container">
+
+        <div class="contact-header">
+
+            <span class="tag">GARENA STUDIO · CONTACTO</span>
+
+            <h1>
+                ¿Cómo podemos
+                <span>ayudarte?</span> 💬
+            </h1>
+
+            <p>
+                Contanos tu duda, problema o consulta.
+                Nuestro equipo está para ayudarte.
+            </p>
+
+        </div>
+
+
+        {% if enviado %}
+
+        <!-- MENSAJE ENVIADO -->
+
+        <div class="contact-success">
+
+            <div class="success-icon">✓</div>
+
+            <h2>¡Mensaje enviado!</h2>
+
+            <p>
+                Recibimos tu consulta correctamente.
+                Nuestro equipo se pondrá en contacto con vos.
+            </p>
+
+            <a href="{% url 'Inicio' %}" class="btn btn-primary">
+                🏠 Volver al inicio
+            </a>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- FORMULARIO -->
+
+        <div class="contact-card">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                {% if not user.is_authenticated %}
+
+                <div class="contact-row">
+
+                    <div class="form-group">
+
+                        <label>👤 Nombre</label>
+
+                        <input
+                            type="text"
+                            name="nombre"
+                            placeholder="Tu nombre"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>📧 Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="tu@email.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="logged-user">
+
+                    <div class="user-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <strong>{{ user.username }}</strong>
+
+                        <span>
+                            {{ user.email }}
+                        </span>
+
+                    </div>
+
+                    <small>Sesión iniciada ✓</small>
+
+                </div>
+
+                {% endif %}
+
+
+                <div class="form-group">
+
+                    <label>📌 Motivo de contacto</label>
+
+                    <select name="asunto" required>
+
+                        <option value="">
+                            Seleccioná una opción
+                        </option>
+
+                        <option value="Consulta">
+                            💬 Consulta general
+                        </option>
+
+                        <option value="Problema técnico">
+                            🛠️ Problema técnico
+                        </option>
+
+                        <option value="Contratación">
+                            🚀 Contratación
+                        </option>
+
+                        <option value="Facturación">
+                            💳 Facturación
+                        </option>
+
+                        <option value="Otro">
+                            📋 Otro
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>💬 Mensaje</label>
+
+                    <textarea
+                        name="mensaje"
+                        rows="7"
+                        placeholder="Contanos qué necesitás..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary contact-button"
+                >
+                    📩 Enviar consulta
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

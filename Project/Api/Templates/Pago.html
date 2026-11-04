@@ -1,0 +1,434 @@
+{% extends 'Base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="payment-page">
+
+    <div class="payment-container">
+
+        {% if pagado %}
+
+        <!-- =========================
+             PAGO CONFIRMADO
+        ========================== -->
+
+        <div class="payment-success">
+
+            <div class="success-circle">
+                ✓
+            </div>
+
+            <span class="tag">
+                GARENA STUDIO · CONFIRMACIÓN
+            </span>
+
+            <h1>
+                ¡Solicitud
+                <span>confirmada!</span>
+            </h1>
+
+            <p>
+                Recibimos correctamente tu solicitud.
+                Estamos procesando la contratación de tu servidor.
+            </p>
+
+
+            <div class="payment-confirmation">
+
+                <div class="confirmation-item">
+                    <span>👤 Cliente</span>
+                    <strong>{{ nombre }}</strong>
+                </div>
+
+                <div class="confirmation-item">
+                    <span>📧 Email</span>
+                    <strong>{{ email }}</strong>
+                </div>
+
+                <div class="confirmation-item">
+                    <span>🖥️ Plan</span>
+                    <strong>{{ plan }}</strong>
+                </div>
+
+                <div class="confirmation-item">
+                    <span>💳 Método</span>
+                    <strong>{{ metodo_pago }}</strong>
+                </div>
+
+                <div class="confirmation-item">
+                    <span>🟡 Estado</span>
+                    <strong>Pendiente de aprobación</strong>
+                </div>
+
+            </div>
+
+
+            <div class="payment-success-actions">
+
+                <a
+                    href="{% url 'Panel' %}"
+                    class="btn btn-primary"
+                >
+                    🖥️ Ir a mi panel
+                </a>
+
+                <a
+                    href="{% url 'Inicio' %}"
+                    class="btn btn-outline"
+                >
+                    🏠 Volver al inicio
+                </a>
+
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =========================
+             ENCABEZADO
+        ========================== -->
+
+        <div class="payment-header">
+
+            <span class="tag">
+                GARENA STUDIO · CHECKOUT
+            </span>
+
+            <h1>
+                Elegí tu
+                <span>método de pago</span>
+            </h1>
+
+            <p>
+                Seleccioná cómo querés realizar el pago de tu servidor.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             CONTENIDO
+        ========================== -->
+
+        <div class="payment-layout">
+
+
+            <!-- =========================
+                 MÉTODOS
+            ========================== -->
+
+            <div class="payment-method-card">
+
+                <div class="payment-card-title">
+
+                    <div class="payment-title-icon">
+                        💳
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Método de pago
+                        </h2>
+
+                        <p>
+                            Elegí una opción para continuar.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    method="post"
+                    action="{% url 'Pago' %}"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- DATOS OCULTOS -->
+
+                    <input
+                        type="hidden"
+                        name="nombre"
+                        value="{{ nombre }}"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="email"
+                        value="{{ email }}"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="plan"
+                        value="{{ plan }}"
+                    >
+
+
+                    <!-- OPCIONES -->
+
+                    <div class="payment-options">
+
+
+                        <!-- TARJETA -->
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="metodo_pago"
+                                value="Tarjeta"
+                                required
+                            >
+
+                            <div class="payment-option-icon">
+                                💳
+                            </div>
+
+                            <div class="payment-option-info">
+
+                                <strong>
+                                    Tarjeta
+                                </strong>
+
+                                <span>
+                                    Débito o crédito
+                                </span>
+
+                            </div>
+
+                            <div class="payment-check">
+                                ✓
+                            </div>
+
+                        </label>
+
+
+                        <!-- MERCADO PAGO -->
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="metodo_pago"
+                                value="Mercado Pago"
+                            >
+
+                            <div class="payment-option-icon">
+                                📱
+                            </div>
+
+                            <div class="payment-option-info">
+
+                                <strong>
+                                    Mercado Pago
+                                </strong>
+
+                                <span>
+                                    Pago digital
+                                </span>
+
+                            </div>
+
+                            <div class="payment-check">
+                                ✓
+                            </div>
+
+                        </label>
+
+
+                        <!-- TRANSFERENCIA -->
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="metodo_pago"
+                                value="Transferencia"
+                            >
+
+                            <div class="payment-option-icon">
+                                🏦
+                            </div>
+
+                            <div class="payment-option-info">
+
+                                <strong>
+                                    Transferencia bancaria
+                                </strong>
+
+                                <span>
+                                    Transferencia directa
+                                </span>
+
+                            </div>
+
+                            <div class="payment-check">
+                                ✓
+                            </div>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- SEGURIDAD -->
+
+                    <div class="payment-security">
+
+                        <span>
+                            🔒
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Pago seguro
+                            </strong>
+
+                            <small>
+                                Tus datos se procesan de forma segura.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTÓN -->
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary payment-submit"
+                    >
+                        🔒 Confirmar método de pago
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- =========================
+                 RESUMEN
+            ========================== -->
+
+            <aside class="payment-summary-card">
+
+                <span class="summary-label">
+                    RESUMEN DE CONTRATACIÓN
+                </span>
+
+                <div class="summary-plan-icon">
+                    🖥️
+                </div>
+
+                <h2>
+                    {{ plan }}
+                </h2>
+
+
+                {% if plan == "Starter" %}
+
+                    <div class="summary-price">
+                        <span>$</span>2.100.000
+                        <small>/mes</small>
+                    </div>
+
+                {% elif plan == "Pro" %}
+
+                    <div class="summary-price">
+                        <span>$</span>2.900.000
+                        <small>/mes</small>
+                    </div>
+
+                {% elif plan == "Enterprise" %}
+
+                    <div class="summary-price">
+                        <span>$</span>4.200.000
+                        <small>/mes</small>
+                    </div>
+
+                {% endif %}
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        👤 Cliente
+                    </span>
+
+                    <strong>
+                        {{ nombre }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        📧 Email
+                    </span>
+
+                    <strong>
+                        {{ email }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        🖥️ Servidor
+                    </span>
+
+                    <strong>
+                        {{ plan }}
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        🟡 Estado
+                    </span>
+
+                    <strong class="pending">
+                        Pendiente
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-note">
+
+                    ⚡ Activación rápida después de la aprobación.
+
+                </div>
+
+            </aside>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

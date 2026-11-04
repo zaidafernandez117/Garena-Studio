@@ -1,0 +1,200 @@
+{% extends "Base.html" %}
+
+{% block content %}
+
+<section class="server-page">
+
+    <div class="server-dashboard">
+
+        <!-- ENCABEZADO -->
+
+        <div class="server-dashboard-header">
+
+            <div>
+                <span class="tag">
+                    GARENA STUDIO · SERVIDOR
+                </span>
+
+                <h2>
+                    ⚙️ {{ servidor.nombre }}
+                </h2>
+
+                <p>
+                    Administrá tu servidor desde este panel.
+                </p>
+            </div>
+
+
+            {% if servidor.estado == "Online" %}
+
+                <div class="server-status online">
+                    🟢 Online
+                </div>
+
+            {% else %}
+
+                <div class="server-status offline">
+                    🔴 Offline
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- INFORMACIÓN DEL SERVIDOR -->
+
+        <div class="server-metrics">
+
+            <div class="metric-card">
+                <span>💻 CPU</span>
+                <strong>{{ servidor.cpu }}</strong>
+                <small>Procesador asignado</small>
+            </div>
+
+
+            <div class="metric-card">
+                <span>🧠 RAM</span>
+                <strong>{{ servidor.ram }}</strong>
+                <small>Memoria disponible</small>
+            </div>
+
+
+            <div class="metric-card">
+                <span>💾 Almacenamiento</span>
+                <strong>{{ servidor.almacenamiento }}</strong>
+                <small>Espacio disponible</small>
+            </div>
+
+
+            <div class="metric-card">
+                <span>🌐 IP</span>
+                <strong>{{ servidor.ip }}</strong>
+                <small>Dirección del servidor</small>
+            </div>
+
+        </div>
+
+
+        <!-- DETALLES Y ACCIONES -->
+
+        <div class="server-details">
+
+            <div class="server-detail-card">
+
+                <h3>📋 Información</h3>
+
+                <div class="detail-row">
+                    <span>Nombre</span>
+                    <strong>{{ servidor.nombre }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Plan</span>
+                    <strong>{{ servidor.plan }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Estado</span>
+                    <strong>{{ servidor.estado }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>IP</span>
+                    <strong>{{ servidor.ip }}</strong>
+                </div>
+
+                <div class="detail-row">
+                    <span>Fecha de creación</span>
+                    <strong>{{ servidor.fecha_creacion }}</strong>
+                </div>
+
+            </div>
+
+
+            <!-- ACCIONES -->
+
+            <div class="server-actions">
+
+                <h3>⚡ Acciones</h3>
+
+
+                {% if servidor.estado == "Offline" %}
+
+                    <form
+                        method="post"
+                        action="{% url 'EncenderServidor' servidor.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary action-button"
+                        >
+                            🟢 Encender servidor
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <form
+                        method="post"
+                        action="{% url 'ApagarServidor' servidor.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-outline action-button"
+                        >
+                            🔴 Apagar servidor
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+                <form
+                    method="post"
+                    action="{% url 'EliminarServidor' servidor.id %}"
+                    onsubmit="return confirm('¿Seguro que querés eliminar este servidor?');"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-outline action-button"
+                    >
+                        🗑️ Eliminar servidor
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- VOLVER -->
+
+        <div class="server-back">
+
+            <a
+                href="{% url 'Panel' %}"
+                class="btn btn-outline"
+            >
+                ← Volver a mi panel
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

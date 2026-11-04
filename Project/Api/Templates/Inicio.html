@@ -1,0 +1,310 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-text">
+
+        <span class="tag">99.99% de uptime garantizado</span>
+
+        <h1>
+            Servidores
+            <span class="glitch" data-text="CONFIABLES">CONFIABLES</span>
+            para proyectos que no pueden caerse
+        </h1>
+
+        <p>
+            Hosting dedicado, VPS y cloud optimizado para Django, Python y Node.
+            Despliegue en minutos, protección DDoS, backups automáticos y soporte humano 24/7.
+        </p>
+
+        <div class="hero-cta">
+            <a href="#planes" class="btn btn-primary pulse-ring">
+                Ver planes
+            </a>
+
+            <a href="{% url 'Contacto' %}" class="btn btn-outline">
+                Hablar con un experto
+            </a>
+        </div>
+
+        <ul class="hero-mini">
+            <li>✔ Migración gratis</li>
+            <li>✔ SSD NVMe</li>
+            <li>✔ Sin permanencia</li>
+        </ul>
+
+    </div>
+
+    <div class="hero-visual">
+
+        <div class="logo-stage">
+            <div class="ring ring-a"></div>
+            <div class="ring ring-b"></div>
+            <div class="ring ring-c"></div>
+
+            <img
+                src="{% static 'src/logo.png' %}"
+                alt="Garena Studio"
+                class="hero-logo"
+            />
+        </div>
+
+        <div class="chip chip-1">CPU 12%</div>
+        <div class="chip chip-2">Ping 8ms</div>
+        <div class="chip chip-3">Uptime 99.99%</div>
+
+    </div>
+</section>
+
+
+<!-- MARQUEE -->
+<div class="marquee">
+
+    <div class="marquee-track">
+
+        <span>
+            DJANGO · PYTHON · POSTGRESQL · DOCKER · REDIS · NGINX · GUNICORN · CI/CD ·
+        </span>
+
+        <span>
+            DJANGO · PYTHON · POSTGRESQL · DOCKER · REDIS · NGINX · GUNICORN · CI/CD ·
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- FEATURES -->
+<section class="section" id="features">
+
+    <h2 class="section-title reveal">
+        Por qué elegir <span>Garena Studio</span>
+    </h2>
+
+    <div class="cards">
+
+        <article class="card reveal tilt">
+
+            <div class="card-ico">
+                🛡️
+            </div>
+
+            <h3>Protección DDoS</h3>
+
+            <p>
+                Mitigación automática hasta 1 Tbps.
+                Tu servidor sigue online aunque el mundo se caiga.
+            </p>
+
+        </article>
+
+
+        <article class="card reveal tilt">
+
+            <div class="card-ico">
+                ⚡
+            </div>
+
+            <h3>NVMe + CPU dedicada</h3>
+
+            <p>
+                Hasta 10x más rápido que un hosting compartido.
+                Ideal para Django con alto tráfico.
+            </p>
+
+        </article>
+
+
+        <article class="card reveal tilt">
+
+            <div class="card-ico">
+                🔄
+            </div>
+
+            <h3>Backups automáticos</h3>
+
+            <p>
+                Snapshots diarios con restauración en 1 clic.
+                Nunca más pierdas datos.
+            </p>
+
+        </article>
+
+
+        <article class="card reveal tilt">
+
+            <div class="card-ico">
+                📞
+            </div>
+
+            <h3>Soporte 24/7</h3>
+
+            <p>
+                Personas reales, respuesta promedio en menos de 5 minutos,
+                en español.
+            </p>
+
+        </article>
+
+
+        <article class="card reveal tilt">
+
+            <div class="card-ico">
+                🐍
+            </div>
+
+            <h3>Optimizado para Python</h3>
+
+            <p>
+                Stack preconfigurado con Gunicorn, Nginx,
+                PostgreSQL y Redis listo para producción.
+            </p>
+
+        </article>
+
+
+        <article class="card reveal tilt">
+
+            <div class="card-ico">
+                📈
+            </div>
+
+            <h3>Escala en 1 clic</h3>
+
+            <p>
+                Subí RAM, CPU o disco sin reinstalar nada
+                y sin downtime.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- PLANES -->
+<section class="section" id="planes">
+
+    <h2 class="section-title reveal">
+        Planes que <span>escalan con vos</span>
+    </h2>
+
+    <p class="section-description reveal">
+        Elegí el servidor según el tamaño, el tráfico y las necesidades de tu proyecto.
+        Podés consultar antes de contratar.
+    </p>
+
+    <div class="plans">
+
+        <!-- STARTER -->
+        <article class="plan reveal">
+
+            <h3>Starter</h3>
+
+            <p class="price">
+                <span>$</span>2.100.000<small>/mes</small>
+            </p>
+
+            <p>
+                Ideal para páginas personales, pequeños emprendimientos,
+                portfolios y proyectos que están comenzando.
+            </p>
+
+            <ul>
+                <li>2 vCPU · 4 GB RAM</li>
+                <li>80 GB de almacenamiento NVMe</li>
+                <li>1 dominio incluido</li>
+                <li>Certificado SSL gratis</li>
+                <li>Backups semanales</li>
+                <li>Soporte técnico</li>
+            </ul>
+
+            <a
+                href="{% url 'Contratar' %}?plan=Starter"
+                class="btn btn-outline"
+            >
+                Consultar este plan
+            </a>
+
+        </article>
+
+
+        <!-- PRO -->
+        <article class="plan plan-top reveal">
+
+            <span class="badge">MÁS ELEGIDO</span>
+
+            <h3>Pro</h3>
+
+            <p class="price">
+                <span>$</span>2.900.000<small>/mes</small>
+            </p>
+
+            <p>
+                Recomendado para tiendas online, sistemas Django,
+                aplicaciones con más visitas y proyectos en crecimiento.
+            </p>
+
+            <ul>
+                <li>6 vCPU · 16 GB RAM</li>
+                <li>320 GB de almacenamiento NVMe</li>
+                <li>Protección DDoS avanzada</li>
+                <li>Backups diarios</li>
+                <li>Entorno de prueba o staging</li>
+                <li>SSL y dominio incluido</li>
+                <li>Soporte técnico prioritario</li>
+            </ul>
+
+            <a
+                href="{% url 'Contratar' %}?plan=Pro"
+                class="btn btn-primary"
+            >
+                Consultar este plan
+            </a>
+
+        </article>
+
+
+        <!-- ENTERPRISE -->
+        <article class="plan reveal">
+
+            <h3>Enterprise</h3>
+
+            <p class="price">
+                <span>$</span>4.200.000<small>/mes</small>
+            </p>
+
+            <p>
+                Pensado para empresas, plataformas con mucho tráfico
+                y aplicaciones que necesitan mayor capacidad y seguridad.
+            </p>
+
+            <ul>
+                <li>16 vCPU · 64 GB RAM</li>
+                <li>1 TB NVMe en RAID</li>
+                <li>IP dedicada</li>
+                <li>SLA de hasta 99.99%</li>
+                <li>Protección DDoS avanzada</li>
+                <li>Backups diarios</li>
+                <li>Ingeniero asignado</li>
+                <li>Soporte prioritario 24/7</li>
+            </ul>
+
+            <a
+                href="{% url 'Contratar' %}?plan=Enterprise"
+                class="btn btn-outline"
+            >
+                Consultar este plan
+            </a>
+
+        </article>
+
+    </div>
+
+</section>
+
+{% endblock %}

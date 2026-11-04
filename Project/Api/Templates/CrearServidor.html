@@ -1,0 +1,28 @@
+{% extends "Base.html" %}
+
+{% block content %}
+
+<h2>Crear servidor 🖥️</h2>
+
+<p>Configurá tu nuevo servidor.</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Nombre del servidor:</label>
+    <input type="text" name="nombre" required>
+
+    <label>Plan:</label>
+    <select name="plan" required>
+        <option value="">Seleccioná un plan</option>
+        <option value="Starter">Starter</option>
+        <option value="Pro">Pro</option>
+        <option value="Enterprise">Enterprise</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">
+        Crear servidor
+    </button>
+</form>
+
+{% endblock %}

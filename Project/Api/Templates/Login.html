@@ -1,0 +1,284 @@
+{% extends 'Base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-background">
+        <div class="auth-glow auth-glow-1"></div>
+        <div class="auth-glow auth-glow-2"></div>
+    </div>
+
+
+    <div class="auth-container">
+
+
+        <!-- IZQUIERDA -->
+
+        <div class="auth-info">
+
+            <span class="tag">
+                GARENA STUDIO · PANEL
+            </span>
+
+            <h1>
+                Bienvenido
+                <span>de nuevo.</span>
+            </h1>
+
+            <p>
+                Iniciá sesión para administrar tus servidores,
+                consultar tus contrataciones y controlar toda
+                tu infraestructura.
+            </p>
+
+
+            <div class="auth-features">
+
+                <div class="auth-feature">
+                    <span>🖥️</span>
+
+                    <div>
+                        <strong>
+                            Administrá tus servidores
+                        </strong>
+
+                        <small>
+                            Controlá tus servidores desde un solo lugar.
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="auth-feature">
+                    <span>⚡</span>
+
+                    <div>
+                        <strong>
+                            Rendimiento en tiempo real
+                        </strong>
+
+                        <small>
+                            Consultá el estado de tu infraestructura.
+                        </small>
+                    </div>
+                </div>
+
+
+                <div class="auth-feature">
+                    <span>🛡️</span>
+
+                    <div>
+                        <strong>
+                            Tu cuenta protegida
+                        </strong>
+
+                        <small>
+                            Acceso seguro a tu panel de administración.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div class="auth-card">
+
+            <div class="auth-logo">
+
+                <img
+                    src="{% static 'src/logo.png' %}"
+                    alt="Garena Studio"
+                >
+
+            </div>
+
+
+            <div class="auth-card-header">
+
+                <h2>
+                    Iniciar sesión
+                </h2>
+
+                <p>
+                    Accedé a tu cuenta de Garena Studio
+                </p>
+
+            </div>
+
+
+            {% if error %}
+
+                <div class="auth-error">
+                    ⚠️ {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <form
+                method="post"
+                class="auth-form"
+            >
+
+                {% csrf_token %}
+                <input
+                    type="hidden"
+                    name="next"
+                    value="{{ next }}">
+
+
+                <!-- USUARIO -->
+
+                <div class="form-group">
+
+                    <label>
+                        Usuario
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span>👤</span>
+
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Ingresá tu usuario"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONTRASEÑA -->
+
+                <div class="form-group">
+
+                    <label>
+                        Contraseña
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span>🔒</span>
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="login-password"
+                            placeholder="Ingresá tu contraseña"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECORDAR -->
+
+                <div class="auth-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            name="remember"
+                        >
+
+                        <span>
+                            Recordarme
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- BOTÓN -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary auth-button"
+                >
+                    🔐 Iniciar sesión
+                </button>
+
+
+            </form>
+
+
+            <div class="auth-divider">
+                <span>¿Todavía no tenés una cuenta?</span>
+            </div>
+
+
+            <a
+                href="{% url 'Registro' %}"
+                class="auth-register"
+            >
+                👤 Crear una cuenta
+            </a>
+
+
+            <a
+                href="{% url 'Inicio' %}"
+                class="auth-back"
+            >
+                ← Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("login-password");
+
+    const button =
+        document.querySelector(".password-toggle");
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        button.textContent = "🙈";
+
+    } else {
+
+        password.type = "password";
+
+        button.textContent = "👁️";
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

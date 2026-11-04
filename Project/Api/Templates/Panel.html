@@ -1,0 +1,591 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+<section class="panel-page">
+
+    <div class="panel-container">
+
+        <!-- ================================
+             ENCABEZADO
+        ================================= -->
+
+        <div class="panel-header">
+
+            <div>
+
+                <span class="tag">
+                    GARENA STUDIO · PANEL
+                </span>
+
+                <h2>
+                    Bienvenido,
+                    <span>{{ usuario.username }}</span> 🎮
+                </h2>
+
+                <p>
+                    Administrá tus servidores y controlá
+                    tu infraestructura desde un solo lugar.
+                </p>
+
+            </div>
+
+            <a
+                href="{% url 'CrearServidor' %}"
+                class="btn btn-primary"
+            >
+                ➕ Crear servidor
+            </a>
+
+        </div>
+
+
+        <!-- ================================
+             ESTADÍSTICAS
+        ================================= -->
+
+        <div class="panel-stats">
+
+            <div class="panel-stat">
+
+                <span class="panel-stat-icon">
+                    🖥️
+                </span>
+
+                <div>
+                    <strong>{{ servidores|length }}</strong>
+                    <span>Mis servidores</span>
+                </div>
+
+            </div>
+
+
+            <div class="panel-stat">
+
+                <span class="panel-stat-icon">
+                    🟢
+                </span>
+
+                <div>
+                    <strong>{{ servidores_online }}</strong>
+                    <span>Servidores online</span>
+                </div>
+
+            </div>
+
+
+            <div class="panel-stat">
+
+                <span class="panel-stat-icon">
+                    🛡️
+                </span>
+
+                <div>
+                    <strong>99.99%</strong>
+                    <span>Uptime garantizado</span>
+                </div>
+
+            </div>
+
+
+            <div class="panel-stat">
+
+                <span class="panel-stat-icon">
+                    📞
+                </span>
+
+                <div>
+                    <strong>24/7</strong>
+                    <span>Soporte</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             MIS SERVIDORES
+        ================================= -->
+
+        <div class="panel-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-kicker">
+                        INFRAESTRUCTURA
+                    </span>
+
+                    <h3>
+                        Mis servidores 🖥️
+                    </h3>
+
+                </div>
+
+                <a
+                    href="{% url 'CrearServidor' %}"
+                    class="btn btn-outline"
+                >
+                    ➕ Nuevo servidor
+                </a>
+
+            </div>
+
+
+            {% if servidores %}
+
+                <div class="server-grid">
+
+                    {% for servidor in servidores %}
+
+                        <article class="server-card">
+
+                            <!-- CABECERA -->
+
+                            <div class="server-card-header">
+
+                                <div class="server-icon">
+                                    🖥️
+                                </div>
+
+                                <div class="server-title">
+
+                                    <h4>
+                                        {{ servidor.nombre }}
+                                    </h4>
+
+                                    <span>
+                                        {{ servidor.plan }}
+                                    </span>
+
+                                </div>
+
+
+                                {% if servidor.estado == "Online" %}
+
+                                    <span class="server-status online">
+                                        ● Online
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="server-status offline">
+                                        ● Offline
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- INFORMACIÓN -->
+
+                            <div class="server-info">
+
+                                <div>
+                                    <span>💻 CPU</span>
+                                    <strong>
+                                        {{ servidor.cpu }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>🧠 RAM</span>
+                                    <strong>
+                                        {{ servidor.ram }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>💾 Almacenamiento</span>
+                                    <strong>
+                                        {{ servidor.almacenamiento }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>🌐 IP</span>
+                                    <strong>
+                                        {{ servidor.ip }}
+                                    </strong>
+                                </div>
+
+                            </div>
+
+
+                            <div class="server-date">
+
+                                📅 Creado:
+                                {{ servidor.fecha_creacion }}
+
+                            </div>
+
+
+                            <!-- BOTONES -->
+
+                            <div class="server-actions">
+
+                                <a
+                                    href="{% url 'AdministrarServidor' servidor.id %}"
+                                    class="btn btn-primary"
+                                >
+                                    ⚙️ Administrar
+                                </a>
+
+
+                                <form
+                                    method="post"
+                                    action="{% url 'EliminarServidor' servidor.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-outline"
+                                    >
+                                        🗑️ Eliminar
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-servers">
+
+                    <div class="empty-icon">
+                        🖥️
+                    </div>
+
+                    <h3>
+                        Todavía no tenés servidores
+                    </h3>
+
+                    <p>
+                        Contratá un plan y empezá a administrar
+                        tu infraestructura con Garena Studio.
+                    </p>
+
+                    <a
+                        href="{% url 'Inicio' %}#planes"
+                        class="btn btn-primary"
+                    >
+                        🚀 Ver planes
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================================
+             MIS SOLICITUDES
+        ================================= -->
+
+        <div class="panel-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-kicker">
+                        CONTRATACIONES
+                    </span>
+
+                    <h3>
+                        Mis solicitudes 📋
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            {% if solicitudes %}
+
+                <div class="server-grid">
+
+                    {% for solicitud in solicitudes %}
+
+                        <article class="server-card">
+
+                            <!-- CABECERA -->
+
+                            <div class="server-card-header">
+
+                                <div class="server-icon">
+                                    📋
+                                </div>
+
+                                <div class="server-title">
+
+                                    <h4>
+                                        {{ solicitud.plan }}
+                                    </h4>
+
+                                    <span>
+                                        Solicitud #{{ solicitud.id }}
+                                    </span>
+
+                                </div>
+
+
+                                <span class="server-status offline">
+                                    ● Pendiente
+                                </span>
+
+                            </div>
+
+
+                            <!-- DATOS DE LA SOLICITUD -->
+
+                            <div class="server-info">
+
+                                <div>
+
+                                    <span>
+                                        👤 Cliente
+                                    </span>
+
+                                    <strong>
+                                        {{ solicitud.nombre }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        📧 Email
+                                    </span>
+
+                                    <strong>
+                                        {{ usuario.email }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        💻 Plan
+                                    </span>
+
+                                    <strong>
+                                        {{ solicitud.plan }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+                                        💳 Método de pago
+                                    </span>
+
+                                    <strong>
+                                        {{ solicitud.metodo_pago }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PRECIO -->
+
+                            <div class="server-date">
+
+                                {% if solicitud.plan == "Starter" %}
+
+                                    💰 Precio:
+                                    <strong>
+                                        $2.100.000 /mes
+                                    </strong>
+
+                                {% elif solicitud.plan == "Pro" %}
+
+                                    💰 Precio:
+                                    <strong>
+                                        $2.900.000 /mes
+                                    </strong>
+
+                                {% elif solicitud.plan == "Enterprise" %}
+
+                                    💰 Precio:
+                                    <strong>
+                                        $4.200.000 /mes
+                                    </strong>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- FECHA Y ESTADO -->
+
+                            <div class="server-date">
+
+                                📅 Solicitud:
+                                <strong>
+                                    {{ solicitud.fecha }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="server-date">
+
+                                🟡 Estado:
+                                <strong>
+                                    Pendiente de aprobación
+                                </strong>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-servers">
+
+                    <div class="empty-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        No tenés solicitudes todavía
+                    </h3>
+
+                    <p>
+                        Cuando contrates un servidor,
+                        tu solicitud aparecerá acá.
+                    </p>
+
+                    <a
+                        href="{% url 'Inicio' %}#planes"
+                        class="btn btn-primary"
+                    >
+                        🚀 Ver planes
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================================
+             ACCIONES RÁPIDAS
+        ================================= -->
+
+        <div class="quick-section">
+
+            <span class="section-kicker">
+                ACCIONES RÁPIDAS
+            </span>
+
+            <h3>
+                ¿Qué querés hacer?
+            </h3>
+
+
+            <div class="quick-grid">
+
+                <a
+                    href="{% url 'CrearServidor' %}"
+                    class="quick-card"
+                >
+                    <span>➕</span>
+
+                    <strong>
+                        Crear servidor
+                    </strong>
+
+                    <small>
+                        Configurá un nuevo servidor.
+                    </small>
+
+                </a>
+
+
+                <a
+                    href="{% url 'Inicio' %}#planes"
+                    class="quick-card"
+                >
+                    <span>💻</span>
+
+                    <strong>
+                        Ver planes
+                    </strong>
+
+                    <small>
+                        Conocé nuestros planes disponibles.
+                    </small>
+
+                </a>
+
+
+                <a
+                    href="{% url 'Inicio' %}#contacto"
+                    class="quick-card"
+                >
+                    <span>📞</span>
+
+                    <strong>
+                        Soporte
+                    </strong>
+
+                    <small>
+                        ¿Necesitás ayuda? Contactanos.
+                    </small>
+
+                </a>
+
+
+                <a
+                    href="{% url 'Logout' %}"
+                    class="quick-card logout-card"
+                >
+
+                    <span>🚪</span>
+
+                    <strong>
+                        Cerrar sesión
+                    </strong>
+
+                    <small>
+                        Salir de tu cuenta.
+                    </small>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

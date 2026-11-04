@@ -1,0 +1,398 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+<section class="section contratar-page">
+
+    <div class="contratar-container">
+
+        {% if enviado %}
+
+            <div class="success-card reveal">
+
+                <div class="success-icon">✓</div>
+
+                <span class="tag">SOLICITUD RECIBIDA</span>
+
+                <h2>¡Servidor solicitado!</h2>
+
+                <p>
+                    Gracias por confiar en <strong>Garena Studio</strong>.
+                    Recibimos correctamente tu solicitud.
+                </p>
+
+                <div class="order-info">
+
+                    <div>
+                        <span>👤 Nombre</span>
+                        <strong>{{ nombre }}</strong>
+                    </div>
+
+                    <div>
+                        <span>📧 Email</span>
+                        <strong>{{ email }}</strong>
+                    </div>
+
+                    <div>
+                        <span>🖥️ Plan</span>
+                        <strong>{{ plan }}</strong>
+                    </div>
+
+                    <div>
+                        <span>🟡 Estado</span>
+                        <strong>Pendiente de aprobación</strong>
+                    </div>
+
+                </div>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'Panel' %}" class="btn btn-primary">
+                    🖥️ Ir a mi panel
+                </a>
+            {% else %}    
+                <a href="{% url 'Login' %}" class="btn btn-outline">
+                    🔐 Iniciar sesión
+                </a>
+                
+                {% endif %}
+
+            </div>
+
+        {% else %}
+
+            <div class="contratar-header reveal">
+
+                <span class="tag">GARENA STUDIO · SERVIDORES</span>
+
+                <h2>
+                    Contratá tu
+                    <span>servidor</span>
+                </h2>
+
+                <p>
+                    Elegí el plan que mejor se adapte a tu proyecto
+                    y prepará tu infraestructura para crecer.
+                </p>
+
+            </div>
+
+
+            <div class="contratar-grid">
+
+                <!-- FORMULARIO -->
+
+                <div class="contratar-card reveal">
+
+                    <h3>📋 Datos de contratación</h3>
+
+                    <p class="card-description">
+                        Completá tus datos para continuar.
+                    </p>
+
+                    <form method="post" action="{% url 'Contratar' %}" class="contratar-form">
+
+                        {% csrf_token %}
+
+                        <label>Nombre</label>
+
+                        <input
+                            type="text"
+                            name="nombre"
+                            placeholder="Tu nombre"
+                            required
+                        >
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="tu@email.com"
+                            required
+                        >
+
+                        <label>Plan</label>
+
+                        <select name="plan" required>
+
+                            <option value="">
+                                Elegí un plan
+                            </option>
+
+                            <option
+                                value="Starter"
+                                {% if plan_seleccionado == "Starter" %}selected{% endif %}
+                            >
+                                Starter — $2.100.000/mes
+                            </option>_
+
+                            <option
+                                value="Pro"
+                                {% if plan_seleccionado == "Pro" %}selected{% endif %}
+                            >
+                                Pro — $2.900.000/mes
+                            </option>
+
+                            <option
+                                value="Enterprise"
+                                {% if plan_seleccionado == "Enterprise" %}selected{% endif %}
+                            >
+                                Enterprise — $4.200.000/mes
+                            </option>
+
+                        </select>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary contratar-button"
+                        >
+                            🚀 Continuar
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+<!-- RESUMEN DETALLADO DEL PLAN -->
+
+<div class="plan-summary reveal">
+
+    <span class="summary-label">
+        TU PLAN
+    </span>
+
+    {% if plan_seleccionado == "Starter" %}
+
+        <h3>Starter</h3>
+
+        <p class="summary-price">
+            $2.100.000 <small>/mes</small>
+        </p>
+
+        <p class="summary-description">
+            Ideal para páginas web, portfolios, pequeños emprendimientos
+            y proyectos que están comenzando.
+        </p>
+
+        <div class="summary-divider"></div>
+
+        <h4>¿Qué incluye?</h4>
+
+        <ul class="summary-features">
+
+            <li>
+                <strong>2 vCPU</strong>
+                <p>Dos núcleos virtuales de procesamiento para ejecutar
+                tu página y realizar tareas.</p>
+            </li>
+
+            <li>
+                <strong>4 GB de RAM</strong>
+                <p>Memoria para que el servidor pueda ejecutar aplicaciones
+                y responder a las visitas.</p>
+            </li>
+
+            <li>
+                <strong>80 GB NVMe</strong>
+                <p>Espacio rápido para guardar archivos, imágenes,
+                bases de datos y contenido de tu proyecto.</p>
+            </li>
+
+            <li>
+                <strong>1 dominio + SSL gratis</strong>
+                <p>Un dominio para tu sitio y un certificado SSL
+                que permite utilizar una conexión HTTPS segura.</p>
+            </li>
+
+            <li>
+                <strong>Backups semanales</strong>
+                <p>Copias de seguridad para ayudar a recuperar
+                información ante algún problema.</p>
+            </li>
+
+            <li>
+                <strong>Soporte técnico</strong>
+                <p>Ayuda para resolver dudas y problemas relacionados
+                con tu servidor.</p>
+            </li>
+
+        </ul>
+
+
+    {% elif plan_seleccionado == "Pro" %}
+
+        <span class="badge">MÁS ELEGIDO</span>
+
+        <h3>Pro</h3>
+
+        <p class="summary-price">
+            $2.900.000 <small>/mes</small>
+        </p>
+
+        <p class="summary-description">
+            Recomendado para tiendas online, sistemas Django,
+            aplicaciones y proyectos que reciben más visitas.
+        </p>
+
+        <div class="summary-divider"></div>
+
+        <h4>¿Qué incluye?</h4>
+
+        <ul class="summary-features">
+
+            <li>
+                <strong>6 vCPU</strong>
+                <p>Mayor capacidad de procesamiento para ejecutar
+                varias tareas y aplicaciones.</p>
+            </li>
+
+            <li>
+                <strong>16 GB de RAM</strong>
+                <p>Más memoria para aplicaciones exigentes,
+                bases de datos y mayor cantidad de usuarios.</p>
+            </li>
+
+            <li>
+                <strong>320 GB NVMe</strong>
+                <p>Amplio almacenamiento de alta velocidad
+                para archivos y datos del proyecto.</p>
+            </li>
+
+            <li>
+                <strong>Protección DDoS avanzada</strong>
+                <p>Ayuda a detectar y mitigar tráfico malicioso
+                que intenta saturar el servidor.</p>
+            </li>
+
+            <li>
+                <strong>Backups diarios</strong>
+                <p>Copias de seguridad frecuentes para reducir
+                la pérdida de información.</p>
+            </li>
+
+            <li>
+                <strong>Staging</strong>
+                <p>Un entorno de prueba para revisar cambios
+                antes de publicarlos en la página real.</p>
+            </li>
+
+            <li>
+                <strong>Dominio + SSL</strong>
+                <p>Dominio incluido y conexión HTTPS
+                para proteger la comunicación.</p>
+            </li>
+
+            <li>
+                <strong>Soporte prioritario</strong>
+                <p>Atención preferente para resolver consultas
+                y problemas técnicos.</p>
+            </li>
+
+        </ul>
+
+
+    {% elif plan_seleccionado == "Enterprise" %}
+
+        <h3>Enterprise</h3>
+
+        <p class="summary-price">
+            $4.200.000 <small>/mes</small>
+        </p>
+
+        <p class="summary-description">
+            Pensado para empresas, plataformas con mucho tráfico
+            y proyectos que necesitan mayor capacidad.
+        </p>
+
+        <div class="summary-divider"></div>
+
+        <h4>¿Qué incluye?</h4>
+
+        <ul class="summary-features">
+
+            <li>
+                <strong>16 vCPU</strong>
+                <p>Alta capacidad de procesamiento para aplicaciones
+                y tareas exigentes.</p>
+            </li>
+
+            <li>
+                <strong>64 GB de RAM</strong>
+                <p>Gran cantidad de memoria para sistemas complejos,
+                bases de datos y múltiples procesos.</p>
+            </li>
+
+            <li>
+                <strong>1 TB NVMe en RAID</strong>
+                <p>Mucho espacio de almacenamiento y una configuración
+                RAID orientada a mejorar la disponibilidad de los datos.</p>
+            </li>
+
+            <li>
+                <strong>IP dedicada</strong>
+                <p>Una dirección IP asignada específicamente
+                a tu servidor.</p>
+            </li>
+
+            <li>
+                <strong>SLA de hasta 99.99%</strong>
+                <p>Compromiso de disponibilidad del servicio
+                según las condiciones acordadas.</p>
+            </li>
+
+            <li>
+                <strong>Protección DDoS avanzada</strong>
+                <p>Protección para ayudar a mantener el servicio
+                disponible frente a tráfico malicioso.</p>
+            </li>
+
+            <li>
+                <strong>Backups diarios</strong>
+                <p>Copias frecuentes para facilitar la recuperación
+                de información.</p>
+            </li>
+
+            <li>
+                <strong>Ingeniero asignado</strong>
+                <p>Un referente técnico para acompañar
+                las necesidades del proyecto.</p>
+            </li>
+
+            <li>
+                <strong>Soporte prioritario 24/7</strong>
+                <p>Atención prioritaria durante todo el día,
+                todos los días.</p>
+            </li>
+
+        </ul>
+
+
+    {% else %}
+
+        <div class="summary-empty">
+
+            <div>🖥️</div>
+
+            <h3>Elegí tu plan</h3>
+
+            <p>
+                Seleccioná uno de nuestros planes para conocer
+                sus características, beneficios y usos.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

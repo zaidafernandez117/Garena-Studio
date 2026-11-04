@@ -1,0 +1,188 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Garena Studio | Servidores confiables</title>
+
+    <meta name="description" content="Servidores confiables y de alto rendimiento." />
+
+    <link rel="icon" href="{% static 'src/logo.png' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <!-- ========================= -->
+    <!-- FONDO -->
+    <!-- ========================= -->
+
+    <div class="bg-fx">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <div class="grid-fx"></div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <header class="nav">
+      <a href="{% url 'Inicio' %}" class="brand">
+        <img src="{% static 'src/logo.png' %}" alt="Logo Garena Studio" class="brand-logo" />
+
+        <span class="brand-name">GARENA <b>STUDIO</b></span>
+      </a>
+
+      <nav class="nav-links">
+        <!-- INICIO -->
+
+        <a href="{% url 'Inicio' %}">🏠 Inicio</a>
+
+        <!-- PLANES -->
+
+        <a href="{% url 'Inicio' %}#planes">💻 Planes</a>
+
+        <!-- CONTRATAR -->
+
+        <a href="{% url 'Contratar' %}" class="nav-contract">🚀 Contratar</a>
+
+        <!-- VENTAJAS -->
+
+        <a href="{% url 'Inicio' %}#features">🛡️ Ventajas</a>
+
+        <!-- CONTACTO -->
+
+        <a href="{% url 'Contacto' %}">📩 Contacto</a>
+
+        {% if user.is_authenticated %}
+          <!-- PANEL -->
+
+          <a href="{% url 'Panel' %}" class="btn btn-primary">🖥️ Mi panel</a>
+
+          <!-- SALIR -->
+
+          <a href="{% url 'Logout' %}" class="btn btn-ghost">🚪 Salir</a>
+        {% else %}
+          <!-- LOGIN -->
+
+          <a href="{% url 'Login' %}" class="btn btn-ghost">🔐 Iniciar sesión</a>
+
+          <!-- REGISTRO -->
+
+          <a href="{% url 'Registro' %}" class="btn btn-primary">👤 Registrarse</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <!-- ========================= -->
+    <!-- CONTENIDO DE CADA PÁGINA -->
+    <!-- ========================= -->
+
+    <main>
+      {% block content %}
+
+      {% endblock %}
+    </main>
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer class="footer">
+      <img src="{% static 'src/logo.png' %}" alt="Garena Studio" class="footer-logo" />
+
+      <p>© 2026 Garena Studio · Servidores confiables para gente exigente.</p>
+    </footer>
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+      /* REVEAL */
+      
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('in')
+            }
+          })
+        },
+      
+        {
+          threshold: 0.15
+        }
+      )
+      
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el))
+      
+      /* CONTADORES */
+      
+      const cio = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return
+      
+            const el = e.target
+      
+            const to = +el.dataset.to
+      
+            let cur = 0
+      
+            const step = Math.max(1, Math.round(to / 60))
+      
+            const t = setInterval(() => {
+              cur += step
+      
+              if (cur >= to) {
+                cur = to
+      
+                clearInterval(t)
+              }
+      
+              el.textContent = cur
+            }, 20)
+      
+            cio.unobserve(el)
+          })
+        },
+      
+        {
+          threshold: 0.5
+        }
+      )
+      
+      document.querySelectorAll('.count').forEach((el) => cio.observe(el))
+      
+      /* EFECTO 3D */
+      
+      document.querySelectorAll('.tilt').forEach((c) => {
+        c.addEventListener('mousemove', (ev) => {
+          const r = c.getBoundingClientRect()
+      
+          const x = (ev.clientX - r.left) / r.width - 0.5
+      
+          const y = (ev.clientY - r.top) / r.height - 0.5
+      
+          c.style.transform = `perspective(700px)
+                              rotateY(${x * 16}deg)
+                              rotateX(${-y * 16}deg)
+                              translateY(-8px)
+                              scale(1.03)`
+        })
+      
+        c.addEventListener('mouseleave', () => {
+          c.style.transform = ''
+        })
+      })
+    </script>
+  </body>
+</html>
