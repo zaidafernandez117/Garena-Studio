@@ -12,8 +12,8 @@ from .views import (
     AdministrarServidor,
     EncenderServidor,
     ApagarServidor,
-    Pago,
-    Contacto
+    Contacto,
+    VerificarCorreo,
 )
 
 urlpatterns = [
@@ -23,6 +23,7 @@ urlpatterns = [
     path("login/", Login, name="Login"),
     path("logout/", Logout, name="Logout"),
     path("registro/", Registro, name="Registro"),
+    path("verificar-correo/", VerificarCorreo, name="VerificarCorreo"),
     path("contacto/", Contacto, name="Contacto"),
 
     # Contratación

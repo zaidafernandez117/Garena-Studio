@@ -45,3 +45,22 @@ class MensajeContacto(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.asunto}"
+    
+class PerfilUsuario(models.Model):
+    usuario= models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil")
+    fecha_nacimiento = models.DateField()
+    
+    def __str__(self):
+        return f"Perfil de {self.usuario.username}"
+    
+class VerificacionCorreo(models.Model):
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    codigo = models.CharField(max_length=6)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    verificado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Verificación de {self.usuario.email}"

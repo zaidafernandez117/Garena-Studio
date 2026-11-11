@@ -1,0 +1,36 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+<section class="form-container">
+    <h1>Verificá tu correo electrónico</h1>
+
+    <p>
+        Te enviamos un código de 6 dígitos a tu correo.
+        Ingresalo para activar tu cuenta.
+    </p>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="codigo">Código de verificación</label>
+        <input
+            type="text"
+            id="codigo"
+            name="codigo"
+            maxlength="6"
+            minlength="6"
+            pattern="[0-9]{6}"
+            placeholder="Ejemplo: 123456"
+            required
+        >
+
+        <button type="submit">Verificar cuenta</button>
+    </form>
+</section>
+
+{% endblock %}

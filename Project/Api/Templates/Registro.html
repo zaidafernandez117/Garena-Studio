@@ -1,168 +1,208 @@
-{% extends 'Base.html' %}
-{% load static %}
+{% extends 'Base.html' %} {% load static %} {% block content %}
+<section class="auth-page">
+  <div class="auth-background">
+    <div class="auth-glow auth-glow-1"></div>
+    <div class="auth-glow auth-glow-2"></div>
+  </div>
 
-{% block content %}
-  <section class="auth-page">
-    <div class="auth-background">
-      <div class="auth-glow auth-glow-1"></div>
-      <div class="auth-glow auth-glow-2"></div>
-    </div>
+  <div class="auth-container">
+    <!-- INFORMACIÓN -->
 
-    <div class="auth-container">
-      <!-- INFORMACIÓN -->
+    <div class="auth-info">
+      <span class="tag">GARENA STUDIO · REGISTRO</span>
 
-      <div class="auth-info">
-        <span class="tag">GARENA STUDIO · REGISTRO</span>
+      <h1>
+        Creá tu
+        <span>cuenta.</span>
+      </h1>
 
-        <h1>
-          Creá tu
-          <span>cuenta.</span>
-        </h1>
+      <p>
+        Registrate en Garena Studio y empezá a administrar tus servidores desde
+        un panel diseñado para vos.
+      </p>
 
-        <p>Registrate en Garena Studio y empezá a administrar tus servidores desde un panel diseñado para vos.</p>
+      <div class="auth-features">
+        <div class="auth-feature">
+          <span>🖥️</span>
 
-        <div class="auth-features">
-          <div class="auth-feature">
-            <span>🖥️</span>
+          <div>
+            <strong>Tu propio panel</strong>
 
-            <div>
-              <strong>Tu propio panel</strong>
-
-              <small>Administrá todos tus servidores desde un solo lugar.</small>
-            </div>
+            <small>Administrá todos tus servidores desde un solo lugar.</small>
           </div>
+        </div>
 
-          <div class="auth-feature">
-            <span>⚡</span>
+        <div class="auth-feature">
+          <span>⚡</span>
 
-            <div>
-              <strong>Configuración rápida</strong>
+          <div>
+            <strong>Configuración rápida</strong>
 
-              <small>Creá y configurá tus servidores fácilmente.</small>
-            </div>
+            <small>Creá y configurá tus servidores fácilmente.</small>
           </div>
+        </div>
 
-          <div class="auth-feature">
-            <span>🛡️</span>
+        <div class="auth-feature">
+          <span>🛡️</span>
 
-            <div>
-              <strong>Acceso seguro</strong>
+          <div>
+            <strong>Acceso seguro</strong>
 
-              <small>Tu información queda protegida dentro de tu cuenta.</small>
-            </div>
+            <small>Tu información queda protegida dentro de tu cuenta.</small>
           </div>
         </div>
       </div>
-
-      <!-- TARJETA REGISTRO -->
-
-      <div class="auth-card">
-        <!-- LOGO -->
-
-        <div class="auth-logo">
-          <img src="{% static 'src/logo.png' %}" alt="Garena Studio" />
-        </div>
-
-        <!-- ENCABEZADO -->
-
-        <div class="auth-card-header">
-          <h2>Crear cuenta</h2>
-
-          <p>Completá tus datos para comenzar</p>
-        </div>
-
-        {% if registrado %}
-          <!-- REGISTRO CORRECTO -->
-
-          <div class="auth-success">
-            <div class="success-icon">✓</div>
-
-            <h3>¡Cuenta creada!</h3>
-
-            <p>Tu cuenta fue registrada correctamente.</p>
-
-            <a href="{% url 'Login' %}" class="btn btn-primary auth-button">🔐 Iniciar sesión</a>
-          </div>
-        {% else %}
-          {% if error %}
-            <div class="auth-error">⚠️ {{ error }}</div>
-          {% endif %}
-
-          <!-- FORMULARIO -->
-
-          <form method="post" class="auth-form">
-            {% csrf_token %}
-
-            <!-- USUARIO -->
-
-            <div class="form-group">
-              <label>Nombre de usuario</label>
-
-              <div class="input-wrapper">
-                <span>👤</span>
-
-                <input type="text" name="username" placeholder="Elegí un usuario" autocomplete="username" required />
-              </div>
-            </div>
-
-            <!-- EMAIL -->
-
-            <div class="form-group">
-              <label>Correo electrónico</label>
-
-              <div class="input-wrapper">
-                <span>📧</span>
-
-                <input type="email" name="email" placeholder="tu@email.com" autocomplete="email" required />
-              </div>
-            </div>
-
-            <!-- CONTRASEÑA -->
-
-            <div class="form-group">
-              <label>Contraseña</label>
-
-              <div class="input-wrapper">
-                <span>🔒</span>
-
-                <input type="password" name="password" id="register-password" placeholder="Creá una contraseña" autocomplete="new-password" required />
-
-                <button type="button" class="password-toggle" onclick="toggleRegisterPassword()">👁️</button>
-              </div>
-            </div>
-
-            <!-- BOTÓN -->
-
-            <button type="submit" class="btn btn-primary auth-button">🚀 Crear mi cuenta</button>
-          </form>
-
-          <div class="auth-divider">
-            <span>¿Ya tenés una cuenta?</span>
-          </div>
-
-          <a href="{% url 'Login' %}" class="auth-register">🔐 Iniciar sesión</a>
-        {% endif %}
-
-        <a href="{% url 'Inicio' %}" class="auth-back">← Volver al inicio</a>
-      </div>
     </div>
-  </section>
 
-  <script>
-    function toggleRegisterPassword() {
-      const password = document.getElementById('register-password')
-    
-      const button = document.querySelector('.password-toggle')
-    
-      if (password.type === 'password') {
-        password.type = 'text'
-    
-        button.textContent = '🙈'
-      } else {
-        password.type = 'password'
-    
-        button.textContent = '👁️'
-      }
+    <!-- TARJETA REGISTRO -->
+
+    <div class="auth-card">
+      <!-- LOGO -->
+
+      <div class="auth-logo">
+        <img src="{% static 'src/logo.png' %}" alt="Garena Studio" />
+      </div>
+
+      <!-- ENCABEZADO -->
+
+      <div class="auth-card-header">
+        <h2>Crear cuenta</h2>
+
+        <p>Completá tus datos para comenzar</p>
+      </div>
+
+      {% if registrado %}
+      <!-- REGISTRO CORRECTO -->
+
+      <div class="auth-success">
+        <div class="success-icon">✓</div>
+
+        <h3>¡Cuenta creada!</h3>
+
+        <p>Tu cuenta fue registrada correctamente.</p>
+
+        <a href="{% url 'Login' %}" class="btn btn-primary auth-button"
+          >🔐 Iniciar sesión</a
+        >
+      </div>
+      {% else %} {% if error %}
+      <div class="auth-error">⚠️ {{ error }}</div>
+      {% endif %}
+
+      <!-- FORMULARIO -->
+
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+
+        <!-- USUARIO -->
+
+        <div class="form-group">
+          <label>Nombre de usuario</label>
+
+          <div class="input-wrapper">
+            <span>👤</span>
+
+            <input
+              type="text"
+              name="username"
+              placeholder="Elegí un usuario"
+              autocomplete="username"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+          <label>Correo electrónico</label>
+
+          <div class="input-wrapper">
+            <span>📧</span>
+
+            <input
+              type="email"
+              name="email"
+              placeholder="tu@email.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- FECHA DE NACIMIENTO -->
+
+        <div class="form-group">
+          <label>Fecha de nacimiento</label>
+
+          <div class="input-wrapper">
+            <span>🎂</span>
+
+            <input type="date" name="fecha_nacimiento" required />
+          </div>
+        </div>
+
+        <!-- CONTRASEÑA -->
+
+        <div class="form-group">
+          <label>Contraseña</label>
+
+          <div class="input-wrapper">
+            <span>🔒</span>
+
+            <input
+              type="password"
+              name="password"
+              id="register-password"
+              placeholder="Creá una contraseña"
+              autocomplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="toggleRegisterPassword()"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <!-- BOTÓN -->
+
+        <button type="submit" class="btn btn-primary auth-button">
+          🚀 Crear mi cuenta
+        </button>
+      </form>
+
+      <div class="auth-divider">
+        <span>¿Ya tenés una cuenta?</span>
+      </div>
+
+      <a href="{% url 'Login' %}" class="auth-register">🔐 Iniciar sesión</a>
+      {% endif %}
+
+      <a href="{% url 'Inicio' %}" class="auth-back">← Volver al inicio</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleRegisterPassword() {
+    const password = document.getElementById("register-password");
+
+    const button = document.querySelector(".password-toggle");
+
+    if (password.type === "password") {
+      password.type = "text";
+
+      button.textContent = "🙈";
+    } else {
+      password.type = "password";
+
+      button.textContent = "👁️";
     }
-  </script>
+  }
+</script>
 {% endblock %}

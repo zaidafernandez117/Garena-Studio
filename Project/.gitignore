@@ -1,0 +1,6 @@
+.env
+db.squlite3
+__pycache__/
+*.py[cod]
+.venv/
+venv/

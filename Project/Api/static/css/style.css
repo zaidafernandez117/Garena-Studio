@@ -3221,3 +3221,493 @@ a {
 .summary-divider {
     margin: 20px 0;
 }
+
+/* ============================= */
+/* MENU HAMBURGUESA */
+/* ============================= */
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 9px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #ffffff;
+  margin: 5px 0;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ============================= */
+/* ADAPTACION A CELULARES */
+/* ============================= */
+
+@media (max-width: 960px) {
+
+  .nav {
+    position: relative;
+    justify-content: space-between;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 20px;
+    background: #111111;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0 0 16px 16px;
+    z-index: 1000;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+
+}
+
+/* =====================================================
+   GARENA STUDIO - CORRECCIONES GENERALES DE TEXTOS
+===================================================== */
+
+/* Evitar desbordamientos */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+main,
+section,
+article,
+div {
+    min-width: 0;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, span, strong, small, label, li, a {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+p {
+    line-height: 1.7;
+    text-wrap: pretty;
+}
+
+h1, h2, h3, h4 {
+    line-height: 1.2;
+    text-wrap: balance;
+}
+
+/* Evitar que los botones corten sus textos */
+.btn,
+button {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+}
+
+/* TARJETAS GENERALES */
+.card,
+.plan,
+.plan-summary,
+.contratar-card,
+.success-card,
+.panel-stat,
+.server-card,
+.metric-card,
+.server-detail-card,
+.server-actions,
+.quick-card,
+.auth-card,
+.payment-method-card,
+.payment-summary-card,
+.contact-card {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
+.card h3,
+.plan h3,
+.plan-summary h3,
+.server-card h4 {
+    line-height: 1.35;
+}
+
+/* PLANES */
+.plan {
+    height: 100%;
+}
+
+.plan ul li {
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.price,
+.summary-price {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+/* CONTRATACIÓN */
+.contratar-grid > *,
+.contratar-card,
+.plan-summary {
+    min-width: 0;
+}
+
+.contratar-form input,
+.contratar-form select {
+    max-width: 100%;
+}
+
+.summary-description,
+.summary-features p,
+.summary-features strong {
+    overflow-wrap: anywhere;
+}
+
+.summary-features li {
+    line-height: 1.6;
+}
+
+/* PANEL */
+.panel-stat > div,
+.server-title,
+.server-info div,
+.metric-card,
+.detail-row {
+    min-width: 0;
+}
+
+.panel-stat strong,
+.panel-stat span,
+.server-info strong,
+.metric-card strong,
+.detail-row strong {
+    overflow-wrap: anywhere;
+}
+
+.server-actions .btn {
+    min-width: 0;
+}
+
+/* AUTENTICACIÓN */
+.auth-container > *,
+.auth-card,
+.auth-info {
+    min-width: 0;
+}
+
+.auth-card-header h2,
+.auth-info h1 {
+    overflow-wrap: anywhere;
+}
+
+.auth-feature div {
+    min-width: 0;
+}
+
+/* PAGOS */
+.payment-layout > *,
+.payment-option-info {
+    min-width: 0;
+}
+
+.payment-option-info span,
+.payment-option-info strong,
+.summary-row strong,
+.confirmation-item strong {
+    overflow-wrap: anywhere;
+}
+
+/* CONTACTO */
+.contact-card,
+.contact-row > * {
+    min-width: 0;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    max-width: 100%;
+}
+
+/* =====================================================
+   MENU RESPONSIVE - CORRECCIÓN
+===================================================== */
+
+@media (max-width: 960px) {
+
+    .nav {
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    /* Mostrar también los enlaces normales */
+    .nav-links a:not(.btn) {
+        display: block;
+    }
+
+    .nav-links a {
+        white-space: normal;
+    }
+
+}
+
+/* =====================================================
+   TABLETS
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .hero {
+        gap: 30px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.2rem, 7vw, 3.5rem);
+    }
+
+    .section {
+        padding: 75px 5vw;
+    }
+
+    .plans,
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+/* =====================================================
+   CELULARES
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .brand {
+        gap: 8px;
+    }
+
+    .brand-logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .brand-name {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    .hero {
+        padding: 55px 20px 45px;
+        min-height: auto;
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 9vw, 2.8rem);
+        line-height: 1.15;
+    }
+
+    .hero p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-cta .btn {
+        width: 100%;
+    }
+
+    .hero-mini {
+        gap: 12px;
+    }
+
+    .hero-visual {
+        min-height: 330px;
+        overflow: hidden;
+    }
+
+    .logo-stage {
+        transform: scale(0.75);
+    }
+
+    .section {
+        padding: 60px 18px;
+    }
+
+    .section-title {
+        font-size: clamp(1.7rem, 8vw, 2.3rem);
+        margin-bottom: 35px;
+    }
+
+    .cards,
+    .plans {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .card,
+    .plan {
+        padding: 25px 22px;
+    }
+
+    .plan:hover {
+        transform: translateY(-5px);
+    }
+
+    .cta {
+        padding: 60px 18px;
+    }
+
+    .cta-box {
+        padding: 35px 20px;
+    }
+
+    .cta-form {
+        flex-direction: column;
+    }
+
+    .cta-form input,
+    .cta-form button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .contratar-header h2,
+    .contact-header h1 {
+        font-size: clamp(1.8rem, 8vw, 2.3rem);
+    }
+
+    .contratar-card,
+    .plan-summary,
+    .payment-method-card,
+    .payment-summary-card {
+        padding: 22px 18px;
+    }
+
+    .summary-price,
+    .price {
+        font-size: 2.3rem;
+    }
+
+    .panel-stat,
+    .server-card,
+    .metric-card {
+        padding: 20px;
+    }
+
+    .auth-card {
+        padding: 25px 18px;
+    }
+
+    .contact-card {
+        padding: 22px 17px;
+    }
+
+    .success-card {
+        padding: 28px 18px;
+    }
+
+    .footer {
+        padding: 30px 18px;
+    }
+
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 380px) {
+
+    .brand-name {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .menu-toggle {
+        padding: 7px;
+    }
+
+    .hero h1 {
+        font-size: 1.9rem;
+    }
+
+    .price,
+    .summary-price {
+        font-size: 2rem;
+    }
+
+}
+
+/* DESCRIPCIÓN DE LA SECCIÓN PLANES */
+
+#planes .section-description {
+    max-width: 750px;
+    width: 100%;
+    margin: 18px auto 38px;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 1.8;
+    font-size: 16px;
+    color: #d0c8ca;
+    box-sizing: border-box;
+}
+
+#planes .section-title {
+    text-align: center;
+    margin-bottom: 0;
+}

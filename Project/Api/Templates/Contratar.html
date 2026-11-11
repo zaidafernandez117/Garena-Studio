@@ -1,178 +1,162 @@
-{% extends 'Base.html' %}
-
-{% block content %}
+{% extends 'Base.html' %} {% block content %}
 
 <section class="section contratar-page">
+  <div class="contratar-container">
+    {% if enviado %}
 
-    <div class="contratar-container">
+    <div class="success-card reveal">
+      <div class="success-icon">✓</div>
 
-        {% if enviado %}
+      <span class="tag">SOLICITUD RECIBIDA</span>
 
-            <div class="success-card reveal">
+      <h2>¡Servidor solicitado!</h2>
 
-                <div class="success-icon">✓</div>
+      <p>
+        Gracias por confiar en <strong>Garena Studio</strong>. Recibimos
+        correctamente tu solicitud.
+      </p>
 
-                <span class="tag">SOLICITUD RECIBIDA</span>
+      <div class="order-info">
+        <div>
+          <span>👤 Nombre</span>
+          <strong>{{ nombre }}</strong>
+        </div>
 
-                <h2>¡Servidor solicitado!</h2>
+        <div>
+          <span>📧 Email</span>
+          <strong>{{ email }}</strong>
+        </div>
 
-                <p>
-                    Gracias por confiar en <strong>Garena Studio</strong>.
-                    Recibimos correctamente tu solicitud.
-                </p>
+        <div>
+          <span>🖥️ Plan</span>
+          <strong>{{ plan }}</strong>
+        </div>
 
-                <div class="order-info">
+        <div>
+          <span>🟡 Estado</span>
+          <strong>Pendiente de aprobación</strong>
+        </div>
+      </div>
 
-                    <div>
-                        <span>👤 Nombre</span>
-                        <strong>{{ nombre }}</strong>
-                    </div>
+      {% if user.is_authenticated %}
+      <a href="{% url 'Panel' %}" class="btn btn-primary"> 🖥️ Ir a mi panel </a>
+      {% else %}
+      <a href="{% url 'Login' %}" class="btn btn-outline">
+        🔐 Iniciar sesión
+      </a>
 
-                    <div>
-                        <span>📧 Email</span>
-                        <strong>{{ email }}</strong>
-                    </div>
+      {% endif %}
+    </div>
 
-                    <div>
-                        <span>🖥️ Plan</span>
-                        <strong>{{ plan }}</strong>
-                    </div>
+    {% else %}
 
-                    <div>
-                        <span>🟡 Estado</span>
-                        <strong>Pendiente de aprobación</strong>
-                    </div>
+    <div class="contratar-header reveal">
+      <span class="tag">GARENA STUDIO · SERVIDORES</span>
 
-                </div>
+      <h2>
+        Contratá tu
+        <span>servidor</span>
+      </h2>
 
-            {% if user.is_authenticated %}
-                <a href="{% url 'Panel' %}" class="btn btn-primary">
-                    🖥️ Ir a mi panel
-                </a>
-            {% else %}    
-                <a href="{% url 'Login' %}" class="btn btn-outline">
-                    🔐 Iniciar sesión
-                </a>
-                
-                {% endif %}
+      <p>
+        Elegí el plan que mejor se adapte a tu proyecto y prepará tu
+        infraestructura para crecer.
+      </p>
+    </div>
 
-            </div>
+    <div class="contratar-grid">
+      <!-- FORMULARIO -->
 
-        {% else %}
+      <div class="contratar-card reveal">
+        <h3>📋 Datos de contratación</h3>
 
-            <div class="contratar-header reveal">
+        <p class="card-description">Completá tus datos para continuar.</p>
 
-                <span class="tag">GARENA STUDIO · SERVIDORES</span>
+        <form
+          method="post"
+          action="{% url 'Contratar' %}"
+          class="contratar-form"
+        >
+          {% csrf_token %}
 
-                <h2>
-                    Contratá tu
-                    <span>servidor</span>
-                </h2>
+          <label>Nombre</label>
 
-                <p>
-                    Elegí el plan que mejor se adapte a tu proyecto
-                    y prepará tu infraestructura para crecer.
-                </p>
+          <input type="text" name="nombre" placeholder="Tu nombre" required />
 
-            </div>
+          <label>Email</label>
 
+          <input
+            type="email"
+            name="email"
+            placeholder="tu@email.com"
+            required
+          />
 
-            <div class="contratar-grid">
+          <label>Plan</label>
 
-                <!-- FORMULARIO -->
+          <select name="plan" id="plan-select" required>
+            <option value="">Elegí un plan</option>
 
-                <div class="contratar-card reveal">
+            <option
+              value="Starter"
+              {%
+              if
+              plan_seleccionado=""
+              ="Starter"
+              %}selected{%
+              endif
+              %}
+            >
+              Starter — $2.100.000/mes
+            </option>
 
-                    <h3>📋 Datos de contratación</h3>
+            <option
+              value="Pro"
+              {%
+              if
+              plan_seleccionado=""
+              ="Pro"
+              %}selected{%
+              endif
+              %}
+            >
+              Pro — $2.900.000/mes
+            </option>
 
-                    <p class="card-description">
-                        Completá tus datos para continuar.
-                    </p>
+            <option
+              value="Enterprise"
+              {%
+              if
+              plan_seleccionado=""
+              ="Enterprise"
+              %}selected{%
+              endif
+              %}
+            >
+              Enterprise — $4.200.000/mes
+            </option>
+          </select>
 
-                    <form method="post" action="{% url 'Contratar' %}" class="contratar-form">
+          <button type="submit" class="btn btn-primary contratar-button">
+            🚀 Continuar
+          </button>
+        </form>
+      </div>
 
-                        {% csrf_token %}
+      <!-- RESUMEN DETALLADO DEL PLAN -->
 
-                        <label>Nombre</label>
+      <div class="plan-summary reveal" id="plan-summary">
+        <span class="summary-label"> TU PLAN </span>
 
-                        <input
-                            type="text"
-                            name="nombre"
-                            placeholder="Tu nombre"
-                            required
-                        >
-
-                        <label>Email</label>
-
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="tu@email.com"
-                            required
-                        >
-
-                        <label>Plan</label>
-
-                        <select name="plan" required>
-
-                            <option value="">
-                                Elegí un plan
-                            </option>
-
-                            <option
-                                value="Starter"
-                                {% if plan_seleccionado == "Starter" %}selected{% endif %}
-                            >
-                                Starter — $2.100.000/mes
-                            </option>_
-
-                            <option
-                                value="Pro"
-                                {% if plan_seleccionado == "Pro" %}selected{% endif %}
-                            >
-                                Pro — $2.900.000/mes
-                            </option>
-
-                            <option
-                                value="Enterprise"
-                                {% if plan_seleccionado == "Enterprise" %}selected{% endif %}
-                            >
-                                Enterprise — $4.200.000/mes
-                            </option>
-
-                        </select>
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary contratar-button"
-                        >
-                            🚀 Continuar
-                        </button>
-
-                    </form>
-
-                </div>
-
-
-<!-- RESUMEN DETALLADO DEL PLAN -->
-
-<div class="plan-summary reveal">
-
-    <span class="summary-label">
-        TU PLAN
-    </span>
-
-    {% if plan_seleccionado == "Starter" %}
+        {% if plan_seleccionado == "Starter" %}
 
         <h3>Starter</h3>
 
-        <p class="summary-price">
-            $2.100.000 <small>/mes</small>
-        </p>
+        <p class="summary-price">$2.100.000 <small>/mes</small></p>
 
         <p class="summary-description">
-            Ideal para páginas web, portfolios, pequeños emprendimientos
-            y proyectos que están comenzando.
+          Ideal para páginas web, portfolios, pequeños emprendimientos y
+          proyectos que están comenzando.
         </p>
 
         <div class="summary-divider"></div>
@@ -180,59 +164,66 @@
         <h4>¿Qué incluye?</h4>
 
         <ul class="summary-features">
+          <li>
+            <strong>2 vCPU</strong>
+            <p>
+              Dos núcleos virtuales de procesamiento para ejecutar tu página y
+              realizar tareas.
+            </p>
+          </li>
 
-            <li>
-                <strong>2 vCPU</strong>
-                <p>Dos núcleos virtuales de procesamiento para ejecutar
-                tu página y realizar tareas.</p>
-            </li>
+          <li>
+            <strong>4 GB de RAM</strong>
+            <p>
+              Memoria para que el servidor pueda ejecutar aplicaciones y
+              responder a las visitas.
+            </p>
+          </li>
 
-            <li>
-                <strong>4 GB de RAM</strong>
-                <p>Memoria para que el servidor pueda ejecutar aplicaciones
-                y responder a las visitas.</p>
-            </li>
+          <li>
+            <strong>80 GB NVMe</strong>
+            <p>
+              Espacio rápido para guardar archivos, imágenes, bases de datos y
+              contenido de tu proyecto.
+            </p>
+          </li>
 
-            <li>
-                <strong>80 GB NVMe</strong>
-                <p>Espacio rápido para guardar archivos, imágenes,
-                bases de datos y contenido de tu proyecto.</p>
-            </li>
+          <li>
+            <strong>1 dominio + SSL gratis</strong>
+            <p>
+              Un dominio para tu sitio y un certificado SSL que permite utilizar
+              una conexión HTTPS segura.
+            </p>
+          </li>
 
-            <li>
-                <strong>1 dominio + SSL gratis</strong>
-                <p>Un dominio para tu sitio y un certificado SSL
-                que permite utilizar una conexión HTTPS segura.</p>
-            </li>
+          <li>
+            <strong>Backups semanales</strong>
+            <p>
+              Copias de seguridad para ayudar a recuperar información ante algún
+              problema.
+            </p>
+          </li>
 
-            <li>
-                <strong>Backups semanales</strong>
-                <p>Copias de seguridad para ayudar a recuperar
-                información ante algún problema.</p>
-            </li>
-
-            <li>
-                <strong>Soporte técnico</strong>
-                <p>Ayuda para resolver dudas y problemas relacionados
-                con tu servidor.</p>
-            </li>
-
+          <li>
+            <strong>Soporte técnico</strong>
+            <p>
+              Ayuda para resolver dudas y problemas relacionados con tu
+              servidor.
+            </p>
+          </li>
         </ul>
 
-
-    {% elif plan_seleccionado == "Pro" %}
+        {% elif plan_seleccionado == "Pro" %}
 
         <span class="badge">MÁS ELEGIDO</span>
 
         <h3>Pro</h3>
 
-        <p class="summary-price">
-            $2.900.000 <small>/mes</small>
-        </p>
+        <p class="summary-price">$2.900.000 <small>/mes</small></p>
 
         <p class="summary-description">
-            Recomendado para tiendas online, sistemas Django,
-            aplicaciones y proyectos que reciben más visitas.
+          Recomendado para tiendas online, sistemas Django, aplicaciones y
+          proyectos que reciben más visitas.
         </p>
 
         <div class="summary-divider"></div>
@@ -240,69 +231,78 @@
         <h4>¿Qué incluye?</h4>
 
         <ul class="summary-features">
+          <li>
+            <strong>6 vCPU</strong>
+            <p>
+              Mayor capacidad de procesamiento para ejecutar varias tareas y
+              aplicaciones.
+            </p>
+          </li>
 
-            <li>
-                <strong>6 vCPU</strong>
-                <p>Mayor capacidad de procesamiento para ejecutar
-                varias tareas y aplicaciones.</p>
-            </li>
+          <li>
+            <strong>16 GB de RAM</strong>
+            <p>
+              Más memoria para aplicaciones exigentes, bases de datos y mayor
+              cantidad de usuarios.
+            </p>
+          </li>
 
-            <li>
-                <strong>16 GB de RAM</strong>
-                <p>Más memoria para aplicaciones exigentes,
-                bases de datos y mayor cantidad de usuarios.</p>
-            </li>
+          <li>
+            <strong>320 GB NVMe</strong>
+            <p>
+              Amplio almacenamiento de alta velocidad para archivos y datos del
+              proyecto.
+            </p>
+          </li>
 
-            <li>
-                <strong>320 GB NVMe</strong>
-                <p>Amplio almacenamiento de alta velocidad
-                para archivos y datos del proyecto.</p>
-            </li>
+          <li>
+            <strong>Protección DDoS avanzada</strong>
+            <p>
+              Ayuda a detectar y mitigar tráfico malicioso que intenta saturar
+              el servidor.
+            </p>
+          </li>
 
-            <li>
-                <strong>Protección DDoS avanzada</strong>
-                <p>Ayuda a detectar y mitigar tráfico malicioso
-                que intenta saturar el servidor.</p>
-            </li>
+          <li>
+            <strong>Backups diarios</strong>
+            <p>
+              Copias de seguridad frecuentes para reducir la pérdida de
+              información.
+            </p>
+          </li>
 
-            <li>
-                <strong>Backups diarios</strong>
-                <p>Copias de seguridad frecuentes para reducir
-                la pérdida de información.</p>
-            </li>
+          <li>
+            <strong>Staging</strong>
+            <p>
+              Un entorno de prueba para revisar cambios antes de publicarlos en
+              la página real.
+            </p>
+          </li>
 
-            <li>
-                <strong>Staging</strong>
-                <p>Un entorno de prueba para revisar cambios
-                antes de publicarlos en la página real.</p>
-            </li>
+          <li>
+            <strong>Dominio + SSL</strong>
+            <p>
+              Dominio incluido y conexión HTTPS para proteger la comunicación.
+            </p>
+          </li>
 
-            <li>
-                <strong>Dominio + SSL</strong>
-                <p>Dominio incluido y conexión HTTPS
-                para proteger la comunicación.</p>
-            </li>
-
-            <li>
-                <strong>Soporte prioritario</strong>
-                <p>Atención preferente para resolver consultas
-                y problemas técnicos.</p>
-            </li>
-
+          <li>
+            <strong>Soporte prioritario</strong>
+            <p>
+              Atención preferente para resolver consultas y problemas técnicos.
+            </p>
+          </li>
         </ul>
 
-
-    {% elif plan_seleccionado == "Enterprise" %}
+        {% elif plan_seleccionado == "Enterprise" %}
 
         <h3>Enterprise</h3>
 
-        <p class="summary-price">
-            $4.200.000 <small>/mes</small>
-        </p>
+        <p class="summary-price">$4.200.000 <small>/mes</small></p>
 
         <p class="summary-description">
-            Pensado para empresas, plataformas con mucho tráfico
-            y proyectos que necesitan mayor capacidad.
+          Pensado para empresas, plataformas con mucho tráfico y proyectos que
+          necesitan mayor capacidad.
         </p>
 
         <div class="summary-divider"></div>
@@ -310,89 +310,265 @@
         <h4>¿Qué incluye?</h4>
 
         <ul class="summary-features">
+          <li>
+            <strong>16 vCPU</strong>
+            <p>
+              Alta capacidad de procesamiento para aplicaciones y tareas
+              exigentes.
+            </p>
+          </li>
 
-            <li>
-                <strong>16 vCPU</strong>
-                <p>Alta capacidad de procesamiento para aplicaciones
-                y tareas exigentes.</p>
-            </li>
+          <li>
+            <strong>64 GB de RAM</strong>
+            <p>
+              Gran cantidad de memoria para sistemas complejos, bases de datos y
+              múltiples procesos.
+            </p>
+          </li>
 
-            <li>
-                <strong>64 GB de RAM</strong>
-                <p>Gran cantidad de memoria para sistemas complejos,
-                bases de datos y múltiples procesos.</p>
-            </li>
+          <li>
+            <strong>1 TB NVMe en RAID</strong>
+            <p>
+              Mucho espacio de almacenamiento y una configuración RAID orientada
+              a mejorar la disponibilidad de los datos.
+            </p>
+          </li>
 
-            <li>
-                <strong>1 TB NVMe en RAID</strong>
-                <p>Mucho espacio de almacenamiento y una configuración
-                RAID orientada a mejorar la disponibilidad de los datos.</p>
-            </li>
+          <li>
+            <strong>IP dedicada</strong>
+            <p>Una dirección IP asignada específicamente a tu servidor.</p>
+          </li>
 
-            <li>
-                <strong>IP dedicada</strong>
-                <p>Una dirección IP asignada específicamente
-                a tu servidor.</p>
-            </li>
+          <li>
+            <strong>SLA de hasta 99.99%</strong>
+            <p>
+              Compromiso de disponibilidad del servicio según las condiciones
+              acordadas.
+            </p>
+          </li>
 
-            <li>
-                <strong>SLA de hasta 99.99%</strong>
-                <p>Compromiso de disponibilidad del servicio
-                según las condiciones acordadas.</p>
-            </li>
+          <li>
+            <strong>Protección DDoS avanzada</strong>
+            <p>
+              Protección para ayudar a mantener el servicio disponible frente a
+              tráfico malicioso.
+            </p>
+          </li>
 
-            <li>
-                <strong>Protección DDoS avanzada</strong>
-                <p>Protección para ayudar a mantener el servicio
-                disponible frente a tráfico malicioso.</p>
-            </li>
+          <li>
+            <strong>Backups diarios</strong>
+            <p>
+              Copias frecuentes para facilitar la recuperación de información.
+            </p>
+          </li>
 
-            <li>
-                <strong>Backups diarios</strong>
-                <p>Copias frecuentes para facilitar la recuperación
-                de información.</p>
-            </li>
+          <li>
+            <strong>Ingeniero asignado</strong>
+            <p>
+              Un referente técnico para acompañar las necesidades del proyecto.
+            </p>
+          </li>
 
-            <li>
-                <strong>Ingeniero asignado</strong>
-                <p>Un referente técnico para acompañar
-                las necesidades del proyecto.</p>
-            </li>
-
-            <li>
-                <strong>Soporte prioritario 24/7</strong>
-                <p>Atención prioritaria durante todo el día,
-                todos los días.</p>
-            </li>
-
+          <li>
+            <strong>Soporte prioritario 24/7</strong>
+            <p>Atención prioritaria durante todo el día, todos los días.</p>
+          </li>
         </ul>
 
-
-    {% else %}
+        {% else %}
 
         <div class="summary-empty">
+          <div>🖥️</div>
 
-            <div>🖥️</div>
+          <h3>Elegí tu plan</h3>
 
-            <h3>Elegí tu plan</h3>
-
-            <p>
-                Seleccioná uno de nuestros planes para conocer
-                sus características, beneficios y usos.
-            </p>
-
+          <p>
+            Seleccioná uno de nuestros planes para conocer sus características,
+            beneficios y usos.
+          </p>
         </div>
 
-    {% endif %}
-
-</div>
-
-            </div>
-
         {% endif %}
-
+      </div>
     </div>
 
+    {% endif %}
+  </div>
 </section>
+
+<script>
+  const selectorPlan = document.getElementById("plan-select");
+  const resumenPlan = document.getElementById("plan-summary");
+
+  const planes = {
+    Starter: {
+      nombre: "Starter",
+      precio: "$2.100.000",
+      descripcion:
+        "Ideal para páginas web, portfolios, pequeños emprendimientos y proyectos que están comenzando.",
+      caracteristicas: [
+        [
+          "2 vCPU",
+          "Dos núcleos virtuales de procesamiento para ejecutar tu página y realizar tareas.",
+        ],
+        [
+          "4 GB de RAM",
+          "Memoria para ejecutar aplicaciones y responder a las visitas.",
+        ],
+        [
+          "80 GB NVMe",
+          "Espacio rápido para guardar archivos, imágenes y bases de datos.",
+        ],
+        [
+          "1 dominio + SSL gratis",
+          "Dominio para tu sitio y conexión HTTPS segura.",
+        ],
+        [
+          "Backups semanales",
+          "Copias de seguridad para ayudar a recuperar información.",
+        ],
+        [
+          "Soporte técnico",
+          "Ayuda para resolver dudas y problemas del servidor.",
+        ],
+      ],
+    },
+
+    Pro: {
+      nombre: "Pro",
+      precio: "$2.900.000",
+      descripcion:
+        "Recomendado para tiendas online, sistemas Django, aplicaciones y proyectos que reciben más visitas.",
+      caracteristicas: [
+        [
+          "6 vCPU",
+          "Mayor capacidad de procesamiento para ejecutar varias tareas.",
+        ],
+        [
+          "16 GB de RAM",
+          "Más memoria para aplicaciones, bases de datos y más usuarios.",
+        ],
+        ["320 GB NVMe", "Almacenamiento rápido y amplio para tu proyecto."],
+        [
+          "Protección DDoS avanzada",
+          "Ayuda a mitigar tráfico malicioso que intenta saturar el servidor.",
+        ],
+        [
+          "Backups diarios",
+          "Copias frecuentes para reducir la pérdida de información.",
+        ],
+        [
+          "Staging",
+          "Entorno de prueba para revisar cambios antes de publicarlos.",
+        ],
+        ["Dominio + SSL", "Dominio incluido y conexión HTTPS."],
+        [
+          "Soporte prioritario",
+          "Atención preferente para consultas y problemas técnicos.",
+        ],
+      ],
+    },
+
+    Enterprise: {
+      nombre: "Enterprise",
+      precio: "$4.200.000",
+      descripcion:
+        "Pensado para empresas, plataformas con mucho tráfico y proyectos que necesitan mayor capacidad.",
+      caracteristicas: [
+        [
+          "16 vCPU",
+          "Alta capacidad de procesamiento para aplicaciones exigentes.",
+        ],
+        [
+          "64 GB de RAM",
+          "Memoria para sistemas complejos, bases de datos y múltiples procesos.",
+        ],
+        [
+          "1 TB NVMe en RAID",
+          "Gran espacio de almacenamiento y configuración orientada a mejorar la disponibilidad.",
+        ],
+        [
+          "IP dedicada",
+          "Una dirección IP asignada específicamente a tu servidor.",
+        ],
+        [
+          "SLA de hasta 99.99%",
+          "Compromiso de disponibilidad según las condiciones acordadas.",
+        ],
+        [
+          "Protección DDoS avanzada",
+          "Ayuda a proteger el servicio frente a tráfico malicioso.",
+        ],
+        [
+          "Backups diarios",
+          "Copias frecuentes para facilitar la recuperación de información.",
+        ],
+        [
+          "Ingeniero asignado",
+          "Un referente técnico para acompañar tu proyecto.",
+        ],
+        [
+          "Soporte prioritario 24/7",
+          "Atención prioritaria durante todo el día.",
+        ],
+      ],
+    },
+  };
+
+  function actualizarPlan() {
+    const seleccionado = selectorPlan.value;
+
+    if (!planes[seleccionado]) {
+      resumenPlan.innerHTML = `
+            <span class="summary-label">TU PLAN</span>
+            <div class="summary-empty">
+                <div>🖥️</div>
+                <h3>Elegí tu plan</h3>
+                <p>Seleccioná un plan para conocer sus características y beneficios.</p>
+            </div>
+        `;
+      return;
+    }
+
+    const plan = planes[seleccionado];
+
+    const listaCaracteristicas = plan.caracteristicas
+      .map(
+        (item) => `
+        <li>
+            <strong>${item[0]}</strong>
+            <p>${item[1]}</p>
+        </li>
+    `,
+      )
+      .join("");
+
+    resumenPlan.innerHTML = `
+        <span class="summary-label">TU PLAN</span>
+
+        ${seleccionado === "Pro" ? '<span class="badge">MÁS ELEGIDO</span>' : ""}
+
+        <h3>${plan.nombre}</h3>
+
+        <p class="summary-price">
+            ${plan.precio} <small>/mes</small>
+        </p>
+
+        <p class="summary-description">
+            ${plan.descripcion}
+        </p>
+
+        <div class="summary-divider"></div>
+
+        <h4>¿Qué incluye?</h4>
+
+        <ul class="summary-features">
+            ${listaCaracteristicas}
+        </ul>
+    `;
+  }
+
+  selectorPlan.addEventListener("change", actualizarPlan);
+</script>
 
 {% endblock %}

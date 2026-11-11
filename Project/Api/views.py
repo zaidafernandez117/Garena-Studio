@@ -4,7 +4,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-
+from datetime import date
+from .models import PerfilUsuario
+import os
+from datetime import timedelta
+from django.utils import timezone
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
+from .models import VerificacionCorreo
 
 def Inicio(request):
     return render(request, 'Inicio.html')
@@ -33,29 +40,133 @@ def Contratar(request):
 def Registro(request):
     if request.method == "POST":
 
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password", "")
+        fecha_nacimiento = request.POST.get("fecha_nacimiento", "")
 
-        # Comprobar si el usuario ya existe
-        if User.objects.filter(username=username).exists():
-
+        if not all([username, email, password, fecha_nacimiento]):
             return render(request, "Registro.html", {
-                "error": "Ese nombre de usuario ya está registrado."
+                "error": "Todos los campos son obligatorios."
             })
 
-        # Crear usuario
-        User.objects.create_user(
+        if User.objects.filter(username__iexact=username).exists():
+            return render(request, "Registro.html", {
+                "error": "Ese usuario ya está registrado."
+            })
+
+        if User.objects.filter(email__iexact=email).exists():
+            return render(request, "Registro.html", {
+                "error": "Ese correo ya está registrado."
+            })
+
+        try:
+            nacimiento = date.fromisoformat(fecha_nacimiento)
+        except ValueError:
+            return render(request, "Registro.html", {
+                "error": "Ingresá una fecha válida."
+            })
+
+        hoy = date.today()
+
+        if nacimiento > hoy:
+            return render(request, "Registro.html", {
+                "error": "La fecha no puede ser futura."
+            })
+
+        edad = hoy.year - nacimiento.year
+        if (hoy.month, hoy.day) < (nacimiento.month, nacimiento.day):
+            edad -= 1
+
+        if edad < 18:
+            return render(request, "Registro.html", {
+                "error": "Debés tener al menos 18 años."
+            })
+
+        usuario = User.objects.create_user(
             username=username,
             email=email,
-            password=password
+            password=password,
+            is_active=False
         )
 
-        return render(request, "Registro.html", {
-            "registrado": True
-        })
+        PerfilUsuario.objects.create(
+            usuario=usuario,
+            fecha_nacimiento=nacimiento
+        )
+
+        codigo = str(int.from_bytes(os.urandom(4), "big") % 1000000).zfill(6)
+
+        VerificacionCorreo.objects.create(
+            usuario=usuario,
+            codigo=codigo
+        )
+
+        try:
+            send_mail(
+                "Verificación de Garena Studio",
+                f"Tu código de verificación es: {codigo}",
+                None,
+                [email],
+                fail_silently=False
+            )
+        except Exception:
+            usuario.delete()
+            return render(request, "Registro.html", {
+                "error": "No pudimos enviar el correo. Intentá nuevamente."
+            })
+
+        request.session["usuario_verificacion"] = usuario.id
+
+        return redirect("VerificarCorreo")
 
     return render(request, "Registro.html")
+
+def VerificarCorreo(request):
+    usuario_id = request.session.get("usuario_verificacion")
+
+    if not usuario_id:
+        return redirect("Registro")
+
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    if request.method == "POST":
+        codigo_ingresado = request.POST.get("codigo", "").strip()
+
+        verificacion = VerificacionCorreo.objects.filter(
+            usuario=usuario,
+            verificado=False
+        ).order_by("-fecha_creacion").first()
+
+        if not verificacion:
+            return render(request, "VerificarCorreo.html", {
+                "error": "No se encontró un código pendiente."
+            })
+
+        # El código vence después de 10 minutos.
+        if timezone.now() - verificacion.fecha_creacion > timedelta(minutes=10):
+            return render(request, "VerificarCorreo.html", {
+                "error": "El código venció. Necesitás solicitar uno nuevo."
+            })
+
+        if codigo_ingresado != verificacion.codigo:
+            return render(request, "VerificarCorreo.html", {
+                "error": "El código ingresado es incorrecto."
+            })
+
+        verificacion.verificado = True
+        verificacion.save()
+
+        usuario.is_active = True
+        usuario.save()
+
+        del request.session["usuario_verificacion"]
+
+        login(request, usuario)
+
+        return redirect("Panel")
+
+    return render(request, "VerificarCorreo.html")
     
 @login_required(login_url="/login/")
 def Pago(request):
